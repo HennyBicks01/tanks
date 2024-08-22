@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://kqhmhff27w5f"]
+
+[ext_resource type="Script" path="res://scenes/arena.gd" id="1_w8bv1"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_e43ua"]
+size = Vector2(50, 50)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nr2pe"]
+
+[node name="Arena" type="Node3D"]
+script = ExtResource("1_w8bv1")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_e43ua")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_nr2pe")
