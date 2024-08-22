@@ -69,7 +69,6 @@ _data = {
 script = ExtResource("1_xxxxxx")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
 mesh = SubResource("CylinderMesh_xxxxx")
 
 [node name="Area3D" type="Area3D" parent="."]
@@ -81,7 +80,6 @@ shape = SubResource("SphereShape3D_xxxxx")
 emitting = false
 amount = 150
 one_shot = true
-speed_scale = 0.0
 explosiveness = 0.66
 process_material = SubResource("ParticleProcessMaterial_qkw3h")
 draw_pass_1 = SubResource("SphereMesh_pomd3")
