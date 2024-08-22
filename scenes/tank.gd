@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 @export var speed = 10.0
+@export var landmine_scene: PackedScene
 
 @onready var cannon = $Cannon
 
@@ -9,6 +10,12 @@ func _ready():
 	var material = StandardMaterial3D.new()
 	material.albedo_color = Color(0.2, 0.2, 0.8)  # Blue color
 	$MeshInstance3D.material_override = material
+
+	# Debug: Check if landmine_scene is assigned
+	if landmine_scene:
+		print("Landmine scene is assigned")
+	else:
+		print("Landmine scene is NOT assigned")
 
 func _physics_process(_delta):
 	var input_dir = Input.get_vector("left", "right", "up", "down")
@@ -32,6 +39,9 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
 
+	if Input.is_action_just_pressed("place_landmine"):
+		place_landmine()
+
 func get_mouse_position():
 	var camera = get_viewport().get_camera_3d()
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -53,3 +63,12 @@ func shoot():
 	var shoot_direction = -cannon.global_transform.basis.z
 	shoot_direction.y = 0  # Ensure projectile moves only in X-Z plane
 	projectile.launch(shoot_direction)
+
+func place_landmine():
+	if landmine_scene:
+		var landmine = landmine_scene.instantiate()
+		get_parent().add_child(landmine)
+		landmine.global_position = global_position + Vector3(0, 0.1, 0)
+		print("Landmine placed at: ", landmine.global_position)
+	else:
+		print("Landmine scene not assigned!")

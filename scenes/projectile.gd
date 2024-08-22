@@ -28,6 +28,8 @@ func _ready():
 	if launch_direction != Vector3.ZERO:
 		apply_central_impulse(launch_direction.normalized() * speed)
 
+	add_to_group("projectiles")
+
 func launch(direction: Vector3):
 	launch_direction = direction
 	if is_inside_tree():
