@@ -12,4 +12,5 @@
  - electro mine
  - darkness
  - ice physics
-
+ - bullet bomb
+ 

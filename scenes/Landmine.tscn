@@ -13,8 +13,10 @@ emission_shape = 1
 emission_sphere_radius = 0.5
 direction = Vector3(0, 1, 0)
 spread = 180.0
-initial_velocity_min = 10.0
-initial_velocity_max = 20.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+damping_min = 5.0
+damping_max = 10.0
 scale_min = 0.5
 scale_max = 1.5
 color = Color(1, 0.7, 0, 1)
@@ -77,9 +79,10 @@ shape = SubResource("SphereShape3D_xxxxx")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 emitting = false
-amount = 200
+amount = 150
 one_shot = true
-explosiveness = 0.9
+speed_scale = 0.0
+explosiveness = 0.66
 process_material = SubResource("ParticleProcessMaterial_qkw3h")
 draw_pass_1 = SubResource("SphereMesh_pomd3")
 
