@@ -10,9 +10,9 @@ func _ready():
 	material.albedo_color = Color(0.2, 0.2, 0.8)  # Blue color
 	$MeshInstance3D.material_override = material
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var input_dir = Input.get_vector("left", "right", "up", "down")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction = Vector3(input_dir.x, 0, input_dir.y).normalized()
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
@@ -24,7 +24,10 @@ func _physics_process(delta):
 
 	# Rotate towards mouse position
 	var mouse_pos = get_mouse_position()
-	look_at(mouse_pos, Vector3.UP)
+	var look_dir = (mouse_pos - global_position).normalized()
+	look_dir.y = 0  # Ensure the tank only rotates on the X-Z plane
+	if look_dir.length() > 0.001:
+		look_at(global_position + look_dir, Vector3.UP)
 
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
@@ -32,9 +35,8 @@ func _physics_process(delta):
 func get_mouse_position():
 	var camera = get_viewport().get_camera_3d()
 	var mouse_pos = get_viewport().get_mouse_position()
-	var ray_length = 1000
 	var from = camera.project_ray_origin(mouse_pos)
-	var to = from + camera.project_ray_normal(mouse_pos) * ray_length
+	var to = from + camera.project_ray_normal(mouse_pos) * 1000
 	var space_state = get_world_3d().direct_space_state
 	var ray_query = PhysicsRayQueryParameters3D.create(from, to)
 	var result = space_state.intersect_ray(ray_query)
@@ -44,6 +46,10 @@ func get_mouse_position():
 
 func shoot():
 	var projectile = preload("res://scenes/Projectile.tscn").instantiate()
-	projectile.global_transform = cannon.global_transform
+	var spawn_point = cannon.global_position + -cannon.global_transform.basis.z * 1.5
+	projectile.set_ignore_body(self)  # Set the tank as the body to ignore
 	get_parent().add_child(projectile)
-	projectile.launch(cannon.global_transform.basis.z)
+	projectile.global_position = spawn_point
+	var shoot_direction = -cannon.global_transform.basis.z
+	shoot_direction.y = 0  # Ensure projectile moves only in X-Z plane
+	projectile.launch(shoot_direction)

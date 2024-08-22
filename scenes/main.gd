@@ -14,11 +14,7 @@ func spawn_tank():
 	tank.position = Vector3.ZERO  # Spawn at the center (0, 0, 0)
 	add_child(tank)
 
-	# Make the camera follow the tank
-	$Camera3D.position = tank.position + Vector3(0, 15, 10)
-	$Camera3D.look_at(tank.position, Vector3.UP)
-
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Clean up projectiles that have gone too far
 	for child in get_children():
 		if child is RigidBody3D and child.global_position.length() > 100:

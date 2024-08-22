@@ -25,5 +25,5 @@ shape = SubResource("BoxShape3D_81d7x")
 [node name="Cannon" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cannon"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5, 1.5)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5, -1.5)
 mesh = SubResource("CylinderMesh_3i56o")

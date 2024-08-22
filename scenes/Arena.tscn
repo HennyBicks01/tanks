@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/arena.gd" id="1_w8bv1"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_e43ua"]
-size = Vector2(50, 50)
+size = Vector2(70, 50)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nr2pe"]
 
