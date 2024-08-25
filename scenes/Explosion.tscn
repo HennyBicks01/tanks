@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://do5yrdfx7sd88"]
+
+[ext_resource type="Script" path="res://scenes/explosion.gd" id="1_g47bb"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6bsr7"]
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+scale_min = 0.5
+scale_max = 1.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nad08"]
+albedo_color = Color(0.97369, 0.537575, 0.132954, 1)
+emission_enabled = true
+emission = Color(0.922149, 0.568983, 0.129768, 1)
+emission_energy_multiplier = 2.51
+
+[sub_resource type="SphereMesh" id="SphereMesh_md6ct"]
+material = SubResource("StandardMaterial3D_nad08")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="Animation" id="Animation_57nnu"]
+resource_name = "explode"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles3D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2g3wx"]
+_data = {
+"explode": SubResource("Animation_57nnu")
+}
+
+[node name="Explosion" type="Node3D"]
+script = ExtResource("1_g47bb")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 100
+one_shot = true
+explosiveness = 0.76
+process_material = SubResource("ParticleProcessMaterial_6bsr7")
+draw_pass_1 = SubResource("SphereMesh_md6ct")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2g3wx")
+}

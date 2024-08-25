@@ -2,8 +2,12 @@ extends CharacterBody3D
 
 @export var speed = 10.0
 @export var landmine_scene: PackedScene
+@export var max_health = 100
 
 @onready var cannon = $Cannon
+@onready var mesh_instance = $MeshInstance3D
+
+var health = max_health
 
 func _ready():
 	# Add a material to make the tank visible
@@ -16,6 +20,9 @@ func _ready():
 		print("Landmine scene is assigned")
 	else:
 		print("Landmine scene is NOT assigned")
+
+	# Add to tanks group
+	add_to_group("tanks")
 
 func _physics_process(_delta):
 	var input_dir = Input.get_vector("left", "right", "up", "down")
@@ -72,3 +79,24 @@ func place_landmine():
 		print("Landmine placed at: ", landmine.global_position)
 	else:
 		print("Landmine scene not assigned!")
+
+func take_damage(damage):
+	health -= damage
+	print("Player tank took damage. Health: ", health)  # Debug print
+	if health <= 0:
+		explode()
+
+func explode():
+	# Play explosion animation
+	var explosion = preload("res://scenes/Explosion.tscn").instantiate()
+	get_parent().add_child(explosion)
+	explosion.global_position = global_position
+
+	# Hide the tank mesh
+	mesh_instance.visible = false
+
+	# Wait for the explosion animation to finish
+	await get_tree().create_timer(2.0).timeout
+
+	# Remove the tank
+	queue_free()

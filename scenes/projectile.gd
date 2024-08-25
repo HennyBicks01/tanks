@@ -2,6 +2,7 @@ extends RigidBody3D
 
 @export var speed = 20.0
 @export var lifetime = 5.0
+@export var damage = 25
 
 var ignore_body: PhysicsBody3D = null
 var launch_direction: Vector3 = Vector3.ZERO
@@ -28,7 +29,7 @@ func _ready():
 	if launch_direction != Vector3.ZERO:
 		apply_central_impulse(launch_direction.normalized() * speed)
 
-	add_to_group("projectiles")
+	connect("body_entered", Callable(self, "_on_body_entered"))
 
 func launch(direction: Vector3):
 	launch_direction = direction
@@ -43,3 +44,10 @@ func _integrate_forces(state):
 
 func set_ignore_body(body: PhysicsBody3D):
 	ignore_body = body
+
+func _on_body_entered(body):
+	if body != ignore_body and body.is_in_group("tanks"):
+		if body.has_method("take_damage"):
+			print("Projectile hit tank: ", body.name)  # Debug print
+			body.take_damage(damage)
+		queue_free()

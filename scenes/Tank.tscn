@@ -14,7 +14,7 @@ top_radius = 0.2
 bottom_radius = 0.2
 height = 1.0
 
-[node name="Tank" type="CharacterBody3D"]
+[node name="Tank" type="CharacterBody3D" groups=["tanks"]]
 script = ExtResource("1_1pogw")
 landmine_scene = ExtResource("2_xxxxx")
 
