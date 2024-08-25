@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://bebgbv8ve48fr"]
+
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_ivx3r"]
+[ext_resource type="PackedScene" uid="uid://wijykjki5hs4" path="res://scenes/Projectile.tscn" id="2_80xpw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_tkg2l"]
+size = Vector3(2, 1, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_81d7x"]
+size = Vector3(2, 1, 3)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3i56o"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 1.0
+
+[node name="Tank" type="CharacterBody3D"]
+script = ExtResource("1_ivx3r")
+projectile_scene = ExtResource("2_80xpw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_tkg2l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_81d7x")
+
+[node name="Cannon" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cannon"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.5, -1.5)
+mesh = SubResource("CylinderMesh_3i56o")
