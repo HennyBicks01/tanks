@@ -10,21 +10,25 @@ extends CharacterBody3D
 var health = max_health
 
 func _ready():
-	# Add a material to make the tank visible
 	var material = StandardMaterial3D.new()
 	material.albedo_color = Color(0.2, 0.2, 0.8)  # Blue color
 	$MeshInstance3D.material_override = material
 
-	# Debug: Check if landmine_scene is assigned
 	if landmine_scene:
 		print("Landmine scene is assigned")
 	else:
 		print("Landmine scene is NOT assigned")
 
-	# Add to tanks group
 	add_to_group("tanks")
 
-func _physics_process(_delta):
+func _physics_process(delta):
+	if is_multiplayer_authority():
+		handle_input()
+	
+	# Lock Y position to prevent vertical movement
+	global_position.y = 0.5
+
+func handle_input():
 	var input_dir = Input.get_vector("left", "right", "up", "down")
 	var direction = Vector3(input_dir.x, 0, input_dir.y).normalized()
 	if direction:
@@ -36,18 +40,17 @@ func _physics_process(_delta):
 
 	move_and_slide()
 
-	# Rotate towards mouse position
 	var mouse_pos = get_mouse_position()
 	var look_dir = (mouse_pos - global_position).normalized()
-	look_dir.y = 0  # Ensure the tank only rotates on the X-Z plane
+	look_dir.y = 0
 	if look_dir.length() > 0.001:
 		look_at(global_position + look_dir, Vector3.UP)
 
 	if Input.is_action_just_pressed("shoot"):
-		shoot()
+		rpc("shoot")
 
 	if Input.is_action_just_pressed("place_landmine"):
-		place_landmine()
+		rpc("place_landmine")
 
 func get_mouse_position():
 	var camera = get_viewport().get_camera_3d()
@@ -61,42 +64,38 @@ func get_mouse_position():
 		return result.position
 	return to
 
+@rpc("any_peer", "call_local")
 func shoot():
 	var projectile = preload("res://scenes/Projectile.tscn").instantiate()
 	var spawn_point = cannon.global_position + -cannon.global_transform.basis.z * 1.5
-	projectile.set_ignore_body(self)  # Set the tank as the body to ignore
-	get_parent().add_child(projectile)
+	projectile.set_ignore_body(self)
+	get_parent().add_child(projectile, true)
 	projectile.global_position = spawn_point
 	var shoot_direction = -cannon.global_transform.basis.z
-	shoot_direction.y = 0  # Ensure projectile moves only in X-Z plane
+	shoot_direction.y = 0
 	projectile.launch(shoot_direction)
 
+@rpc("any_peer", "call_local")
 func place_landmine():
 	if landmine_scene:
 		var landmine = landmine_scene.instantiate()
-		get_parent().add_child(landmine)
+		get_parent().add_child(landmine, true)
 		landmine.global_position = global_position + Vector3(0, 0.1, 0)
 		print("Landmine placed at: ", landmine.global_position)
 	else:
 		print("Landmine scene not assigned!")
 
+@rpc("any_peer", "call_local")
 func take_damage(damage):
 	health -= damage
-	print("Player tank took damage. Health: ", health)  # Debug print
+	print("Player tank took damage. Health: ", health)
 	if health <= 0:
 		explode()
 
 func explode():
-	# Instantiate and play the explosion
 	var explosion = preload("res://scenes/Explosion.tscn").instantiate()
-	get_parent().add_child(explosion)
+	get_parent().add_child(explosion, true)
 	explosion.global_position = global_position
-
-	# Hide the tank immediately
 	visible = false
-
-	# Wait for the explosion animation to finish
 	await get_tree().create_timer(2.0).timeout
-
-	# Remove the tank
 	queue_free()
