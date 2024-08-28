@@ -87,13 +87,13 @@ func take_damage(damage):
 		explode()
 
 func explode():
-	# Play explosion animation
+	# Instantiate and play the explosion
 	var explosion = preload("res://scenes/Explosion.tscn").instantiate()
 	get_parent().add_child(explosion)
 	explosion.global_position = global_position
 
-	# Hide the tank mesh
-	mesh_instance.visible = false
+	# Hide the tank immediately
+	visible = false
 
 	# Wait for the explosion animation to finish
 	await get_tree().create_timer(2.0).timeout
