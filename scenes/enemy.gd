@@ -9,6 +9,7 @@ extends CharacterBody3D
 
 var player: Node3D = null
 var health = max_health
+var target_player_id: int = 0
 
 func _ready():
 	var material = StandardMaterial3D.new()
@@ -25,9 +26,17 @@ func _ready():
 	add_to_group("tanks")
 
 func _process(_delta):
-	if player:
-		look_at(player.global_position, Vector3.UP)
-		cannon.look_at(player.global_position, Vector3.UP)
+	if is_multiplayer_authority():
+		if player:
+			look_at(player.global_position, Vector3.UP)
+			cannon.look_at(player.global_position, Vector3.UP)
+		rpc("sync_rotation", rotation, cannon.rotation)
+
+@rpc("any_peer", "call_local")
+func sync_rotation(enemy_rotation, cannon_rotation):
+	if not is_multiplayer_authority():
+		rotation = enemy_rotation
+		cannon.rotation = cannon_rotation
 
 @rpc("any_peer", "call_local")
 func shoot():
@@ -43,6 +52,15 @@ func shoot():
 
 func set_player(p):
 	player = p
+	if is_multiplayer_authority():
+		rpc("sync_target_player", player.name.to_int())
+
+@rpc("any_peer", "call_local")
+func sync_target_player(player_id):
+	target_player_id = player_id
+	var main_node = get_tree().get_root().get_node("Main")
+	if main_node and main_node.has_method("get_player_tank"):
+		player = main_node.get_player_tank(target_player_id)
 
 @rpc("any_peer", "call_local")
 func take_damage(damage):

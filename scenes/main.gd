@@ -86,7 +86,17 @@ func spawn_enemy_tank():
 	enemy_tank = enemy_tank_scene.instantiate()
 	enemy_tank.position = Vector3(10, 0, 0)
 	add_child(enemy_tank)
-	enemy_tank.set_player(player_tanks[multiplayer.get_unique_id()])
+	
+	# Set the multiplayer authority to the host (player with ID 1)
+	enemy_tank.set_multiplayer_authority(1)
+	
+	# Only the authority (host) should set the initial target
+	if multiplayer.get_unique_id() == 1:
+		var first_player_id = player_tanks.keys()[0]
+		enemy_tank.set_player(player_tanks[first_player_id])
+
+func get_player_tank(player_id):
+	return player_tanks.get(player_id)
 
 func _physics_process(_delta):
 	for child in get_children():
@@ -96,6 +106,6 @@ func _physics_process(_delta):
 func generate_random_code():
 	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	var code = ""
-	for i in range(7):  # Changed to generate a 7-character code
+	for i in range(1):  # Changed to generate a 7-character code
 		code += characters[randi() % characters.length()]
 	return code
