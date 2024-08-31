@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://co2p6b4o2assk"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_xxxxx"]
+radial_segments = 8
+rings = 4
+is_hemisphere = true
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xxxxx"]
+
+[node name="Fragment" type="RigidBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_xxxxx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_xxxxx")
