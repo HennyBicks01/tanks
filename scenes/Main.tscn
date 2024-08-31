@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c10sfjihdjgau"]
+[gd_scene load_steps=5 format=3 uid="uid://c10sfjihdjgau"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_cwt3s"]
 [ext_resource type="PackedScene" uid="uid://kqhmhff27w5f" path="res://scenes/Arena.tscn" id="1_yu0q6"]
+[ext_resource type="PackedScene" uid="uid://3b27kgulm15k" path="res://scenes/MainMenu.tscn" id="3_xxxxx"]
+[ext_resource type="PackedScene" path="res://scenes/Lobby.tscn" id="4_xxxxx"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_cwt3s")
@@ -10,3 +12,10 @@ script = ExtResource("1_cwt3s")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("3_xxxxx")]
+
+[node name="Lobby" parent="CanvasLayer" instance=ExtResource("4_xxxxx")]
+visible = false

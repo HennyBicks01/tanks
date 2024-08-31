@@ -10,6 +10,10 @@ height = 0.4
 radius = 0.2
 
 [node name="Projectile" type="RigidBody3D"]
+collision_layer = 2
+collision_mask = 3
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("1_d0shy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

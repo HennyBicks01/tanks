@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cvxc2wnggkkdd"
-path="res://.godot/imported/Landmine.blend-239cf4b1b25001bd038e44f9db2f1414.scn"
+uid="uid://f1paidykr4pl"
+path="res://.godot/imported/Landmine.blend-7d90a33315b2d7a1aa7ce413388dc831.scn"
 
 [deps]
 
-source_file="res://Landmine.blend"
-dest_files=["res://.godot/imported/Landmine.blend-239cf4b1b25001bd038e44f9db2f1414.scn"]
+source_file="res://Models/Landmine.blend"
+dest_files=["res://.godot/imported/Landmine.blend-7d90a33315b2d7a1aa7ce413388dc831.scn"]
 
 [params]
 

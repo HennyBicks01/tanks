@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dkrruyarmnypm"]
+[gd_scene load_steps=7 format=3 uid="uid://bebgbv8ve48fr"]
 
-[ext_resource type="Script" path="res://scenes/tank.gd" id="1_1pogw"]
-[ext_resource type="PackedScene" uid="uid://cy6bqcc10i5ry" path="res://scenes/Landmine.tscn" id="2_xxxxx"]
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_ivx3r"]
+[ext_resource type="PackedScene" uid="uid://wijykjki5hs4" path="res://scenes/Projectile.tscn" id="2_80xpw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_tkg2l"]
 size = Vector3(2, 1, 3)
@@ -17,17 +17,17 @@ height = 1.0
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xxxxx"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/sync = true
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
-properties/1/replication_mode = 1
+properties/1/sync = true
 properties/2/path = NodePath(".:health")
 properties/2/spawn = true
-properties/2/replication_mode = 1
+properties/2/sync = true
 
-[node name="Tank" type="CharacterBody3D" groups=["tanks"]]
-script = ExtResource("1_1pogw")
-landmine_scene = ExtResource("2_xxxxx")
+[node name="Enemy" type="CharacterBody3D" groups=["tanks"]]
+script = ExtResource("1_ivx3r")
+projectile_scene = ExtResource("2_80xpw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_tkg2l")

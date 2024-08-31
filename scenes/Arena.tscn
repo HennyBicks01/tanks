@@ -1,14 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://kqhmhff27w5f"]
+[gd_scene load_steps=6 format=3 uid="uid://kqhmhff27w5f"]
 
 [ext_resource type="Script" path="res://scenes/arena.gd" id="1_w8bv1"]
+[ext_resource type="PackedScene" uid="uid://wh070fi45hkf" path="res://scenes/BorderBlock.tscn" id="2_2doqu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0bcrn"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_e43ua"]
-size = Vector2(70, 50)
+material = SubResource("StandardMaterial3D_0bcrn")
+size = Vector2(70, 40)
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_nr2pe"]
 
 [node name="Arena" type="Node3D"]
 script = ExtResource("1_w8bv1")
+border_block_scene = ExtResource("2_2doqu")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
@@ -18,3 +23,15 @@ mesh = SubResource("PlaneMesh_e43ua")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("WorldBoundaryShape3D_nr2pe")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.236165, 0.857443, -0.457184, -0.833202, 0.420783, 0.35877, 0.5, 0.296198, 0.813798, -6.17242, 17.4644, 0)
+light_color = Color(0.965208, 0.925935, 0.852886, 1)
+light_energy = 0.369
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
+shadow_enabled = true
+shadow_bias = 1.312
+shadow_normal_bias = 3.717
+shadow_transmittance_bias = 0.0
+shadow_blur = 3.02
