@@ -53,3 +53,4 @@ func shoot():
 	var shoot_direction = -cannon.global_transform.basis.z
 	shoot_direction.y = 0  # Ensure projectile moves only in X-Z plane
 	projectile.launch(shoot_direction)
+	
