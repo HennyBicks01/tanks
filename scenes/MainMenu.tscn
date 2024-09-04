@@ -33,70 +33,81 @@ material_override = SubResource("StandardMaterial3D_ground")
 environment = SubResource("Environment_sky")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Background"]
-transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 5, 0)
+transform = Transform3D(0.866025, -0.433013, 0.25, 0.00789748, 0.511784, 0.859078, -0.499938, -0.742009, 0.446637, 5.30673, 9.62486, 5.49492)
+light_energy = 0.5
+light_indirect_energy = 2.0
+light_angular_distance = 90.0
 shadow_enabled = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 450.0
-offset_bottom = 400.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Title" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Title" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="T" type="Label" parent="VBoxContainer/Title"]
+[node name="T" type="Label" parent="CenterContainer/VBoxContainer/Title"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 128
+theme_override_font_sizes/font_size = 192
 text = "T"
 
-[node name="A" type="Label" parent="VBoxContainer/Title"]
+[node name="A" type="Label" parent="CenterContainer/VBoxContainer/Title"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 128
+theme_override_font_sizes/font_size = 192
 text = "A"
 
-[node name="N" type="Label" parent="VBoxContainer/Title"]
+[node name="N" type="Label" parent="CenterContainer/VBoxContainer/Title"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 128
+theme_override_font_sizes/font_size = 192
 text = "N"
 
-[node name="K" type="Label" parent="VBoxContainer/Title"]
+[node name="K" type="Label" parent="CenterContainer/VBoxContainer/Title"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 128
+theme_override_font_sizes/font_size = 192
 text = "K"
 
-[node name="S" type="Label" parent="VBoxContainer/Title"]
+[node name="S" type="Label" parent="CenterContainer/VBoxContainer/Title"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 128
+theme_override_font_sizes/font_size = 192
 text = "S"
 
-[node name="HostButton" type="Button" parent="VBoxContainer"]
+[node name="ButtonsContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 32
-text = "Host Game"
+theme_override_constants/separation = 20
 
-[node name="JoinButton" type="Button" parent="VBoxContainer"]
+[node name="SinglePlayerButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 32
-text = "Join Game"
+theme_override_font_sizes/font_size = 48
+text = "Single Player"
 
-[node name="CodeInput" type="LineEdit" parent="VBoxContainer"]
+[node name="MultiplayerButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 32
-placeholder_text = "Enter join code"
+theme_override_font_sizes/font_size = 48
+text = "Multiplayer"
+
+[node name="OptionsButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonsContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 48
+text = "Options"

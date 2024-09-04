@@ -23,5 +23,3 @@ mesh = SubResource("PlaneMesh_e43ua")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("WorldBoundaryShape3D_nr2pe")
-
-

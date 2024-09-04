@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var arena = $Arena
 @onready var main_menu = $CanvasLayer/MainMenu
+@onready var multiplayer_menu = $CanvasLayer/MultiplayerMenu
 @onready var lobby = $CanvasLayer/Lobby
 @onready var round_display = $CanvasLayer/RoundDisplay
 @onready var round_number = $CanvasLayer/RoundDisplay/RoundNumber
@@ -12,16 +13,54 @@ var network = ENetMultiplayerPeer.new()
 var port = 8910
 var max_players = 4
 var current_round = 0
+var is_multiplayer = false
 
 var time = 0
 var wave_speed = 2
 var wave_height = 10
 
 func _ready():
-	main_menu.connect("host_game", _on_host_game)
-	main_menu.connect("join_game", _on_join_game)
+	main_menu.connect("start_single_player", _on_start_single_player)
+	main_menu.connect("show_multiplayer_menu", _on_show_multiplayer_menu)
+	main_menu.connect("show_options", _on_show_options)
+	multiplayer_menu.connect("host_game", _on_host_game)
+	multiplayer_menu.connect("join_game", _on_join_game)
+	multiplayer_menu.connect("back_to_main_menu", _on_back_to_main_menu)
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+
+func _on_start_single_player():
+	main_menu.hide()
+	start_game(false)
+
+func _on_show_multiplayer_menu():
+	main_menu.hide()
+	multiplayer_menu.show()
+
+func _on_show_options():
+	main_menu.hide()
+	# You need to create and show an options menu here
+	print("Options menu not implemented yet")
+
+func _on_back_to_main_menu():
+	multiplayer_menu.hide()
+	main_menu.show()
+
+func _on_host_game():
+	var host_code = generate_random_code()
+	network.create_server(port, max_players)
+	multiplayer.multiplayer_peer = network
+	multiplayer_menu.hide()
+	lobby.show()
+	lobby.set_host_code(host_code)
+	lobby.show_start_button(true)
+
+func _on_join_game(code):
+	network.create_client("localhost", port)
+	multiplayer.multiplayer_peer = network
+	multiplayer_menu.hide()
+	lobby.show()
+	lobby.show_start_button(false)
 
 func start_new_round():
 	current_round += 1
@@ -29,9 +68,12 @@ func start_new_round():
 	round_display.visible = true
 	setup_game()
 
-@rpc("any_peer", "call_local")
-func start_game():
-	lobby.hide()
+func start_game(multiplayer_mode: bool):
+	is_multiplayer = multiplayer_mode
+	if is_multiplayer:
+		lobby.hide()
+	else:
+		main_menu.hide()
 	start_new_round()
 
 func setup_game():
@@ -49,7 +91,6 @@ func _process(delta):
 		var offset = sin(time * wave_speed) * wave_height
 		round_number.position.y = offset
 
-# Add this function to check if the round is over
 func check_round_end():
 	var players_alive = false
 	var enemies_alive = false
@@ -65,22 +106,6 @@ func check_round_end():
 	if not players_alive or not enemies_alive:
 		get_tree().create_timer(2.0).timeout.connect(start_new_round)
 
-func _on_host_game():
-	var host_code = generate_random_code()
-	network.create_server(port, max_players)
-	multiplayer.multiplayer_peer = network
-	main_menu.hide()
-	lobby.show()
-	lobby.set_host_code(host_code)
-	lobby.show_start_button(true)
-
-func _on_join_game(_code):
-	network.create_client("localhost", port)
-	multiplayer.multiplayer_peer = network
-	main_menu.hide()
-	lobby.show()
-	lobby.show_start_button(false)
-
 func _on_peer_connected(id):
 	print("Peer connected: ", id)
 
@@ -92,11 +117,11 @@ func _on_peer_disconnected(id):
 
 func spawn_players():
 	var tank_scene = preload("res://scenes/Tank.tscn")
-	var num_players = multiplayer.get_peers().size() + 1
+	var num_players = 1 if not is_multiplayer else multiplayer.get_peers().size() + 1
 	var spacing = 5  # Vertical spacing between tanks
 	
 	for i in range(num_players):
-		var peer_id = multiplayer.get_unique_id() if i == 0 else multiplayer.get_peers()[i-1]
+		var peer_id = 1 if not is_multiplayer else (multiplayer.get_unique_id() if i == 0 else multiplayer.get_peers()[i-1])
 		var tank = tank_scene.instantiate()
 		tank.name = str(peer_id)
 		
@@ -106,12 +131,13 @@ func spawn_players():
 		var z_pos = -((num_players - 1) * spacing / 2.0) + (i * spacing)  # Distribute along Z-axis
 		
 		tank.position = Vector3(x_pos, y_pos, z_pos)
-		tank.set_multiplayer_authority(peer_id)
+		if is_multiplayer:
+			tank.set_multiplayer_authority(peer_id)
 		add_child(tank)
 		player_tanks[peer_id] = tank
 	
-	# Disable collision between player tanks
-	disable_collision_between_tanks()
+	if is_multiplayer:
+		disable_collision_between_tanks()
 
 func disable_collision_between_tanks():
 	var tanks = player_tanks.values()
@@ -127,13 +153,14 @@ func spawn_enemy_tank():
 	enemy_tank.position = Vector3(10, 0, 0)
 	add_child(enemy_tank)
 	
-	# Set the multiplayer authority to the host (player with ID 1)
-	enemy_tank.set_multiplayer_authority(1)
-	
-	# Only the authority (host) should set the initial target
-	if multiplayer.get_unique_id() == 1:
-		var first_player_id = player_tanks.keys()[0]
-		enemy_tank.set_player(player_tanks[first_player_id])
+	if is_multiplayer:
+		enemy_tank.set_multiplayer_authority(1)
+		if multiplayer.get_unique_id() == 1:
+			var first_player_id = player_tanks.keys()[0]
+			enemy_tank.set_player(player_tanks[first_player_id])
+	else:
+		var player_id = player_tanks.keys()[0]
+		enemy_tank.set_player(player_tanks[player_id])
 
 func get_player_tank(player_id):
 	return player_tanks.get(player_id)

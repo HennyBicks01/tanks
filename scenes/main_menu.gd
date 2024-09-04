@@ -1,20 +1,22 @@
 extends Control
 
-signal host_game
-signal join_game(code)
+signal start_single_player
+signal show_multiplayer_menu
+signal show_options
 
-@onready var host_button = $VBoxContainer/HostButton
-@onready var join_button = $VBoxContainer/JoinButton
-@onready var code_input = $VBoxContainer/CodeInput
-@onready var title_letters = $VBoxContainer/Title.get_children()
+@onready var single_player_button = $CenterContainer/VBoxContainer/ButtonsContainer/SinglePlayerButton
+@onready var multiplayer_button = $CenterContainer/VBoxContainer/ButtonsContainer/MultiplayerButton
+@onready var options_button = $CenterContainer/VBoxContainer/ButtonsContainer/OptionsButton
+@onready var title_letters = $CenterContainer/VBoxContainer/Title.get_children()
 
 var time = 0
 var wave_speed = 2
 var wave_height = 10
 
 func _ready():
-	host_button.connect("pressed", _on_host_button_pressed)
-	join_button.connect("pressed", _on_join_button_pressed)
+	single_player_button.connect("pressed", _on_single_player_button_pressed)
+	multiplayer_button.connect("pressed", _on_multiplayer_button_pressed)
+	options_button.connect("pressed", _on_options_button_pressed)
 
 func _process(delta):
 	time += delta
@@ -22,10 +24,11 @@ func _process(delta):
 		var offset = sin(time * wave_speed + i * 0.5) * wave_height
 		title_letters[i].position.y = offset
 
-func _on_host_button_pressed():
-	emit_signal("host_game")
+func _on_single_player_button_pressed():
+	emit_signal("start_single_player")
 
-func _on_join_button_pressed():
-	var code = code_input.text
-	if code.length() > 0:
-		emit_signal("join_game", code)
+func _on_multiplayer_button_pressed():
+	emit_signal("show_multiplayer_menu")
+
+func _on_options_button_pressed():
+	emit_signal("show_options")

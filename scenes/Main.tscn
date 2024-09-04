@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://c10sfjihdjgau"]
+[gd_scene load_steps=7 format=3 uid="uid://c10sfjihdjgau"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_cwt3s"]
 [ext_resource type="PackedScene" uid="uid://kqhmhff27w5f" path="res://scenes/Arena.tscn" id="1_yu0q6"]
 [ext_resource type="PackedScene" uid="uid://3b27kgulm15k" path="res://scenes/MainMenu.tscn" id="3_xxxxx"]
+[ext_resource type="PackedScene" uid="uid://k8uke8emce8o" path="res://scenes/MultiplayerMenu.tscn" id="4_2p7w3"]
 [ext_resource type="PackedScene" uid="uid://c4s7dwrpfu7jh" path="res://scenes/Lobby.tscn" id="4_xxxxx"]
 [ext_resource type="FontFile" uid="uid://cbbtarn8l2yhf" path="res://scripts/VT323-Regular.ttf" id="5_xxxxx"]
 
@@ -17,6 +18,9 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30,
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MainMenu" parent="CanvasLayer" instance=ExtResource("3_xxxxx")]
+
+[node name="MultiplayerMenu" parent="CanvasLayer" instance=ExtResource("4_2p7w3")]
+visible = false
 
 [node name="Lobby" parent="CanvasLayer" instance=ExtResource("4_xxxxx")]
 visible = false
