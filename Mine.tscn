@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://ci22y44jf2g1o"]
-
-[ext_resource type="PackedScene" uid="uid://duewm3jxbbhel" path="res://Models/MineFragments.blend" id="1_blwqe"]
-
-[node name="MineFragments" instance=ExtResource("1_blwqe")]
