@@ -102,7 +102,7 @@ shape = SubResource("SphereShape3D_xxxxx")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 emitting = false
-amount = 250000
+amount = 25000
 lifetime = 3.02
 one_shot = true
 explosiveness = 0.82

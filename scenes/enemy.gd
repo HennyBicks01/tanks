@@ -41,6 +41,8 @@ func sync_rotation(enemy_rotation, cannon_rotation):
 
 @rpc("any_peer", "call_local")
 func shoot():
+	if not is_inside_tree() or not visible:
+		return
 	if player and projectile_scene:
 		var projectile = projectile_scene.instantiate()
 		var spawn_point = cannon.global_position + -cannon.global_transform.basis.z * 1.5
@@ -74,7 +76,18 @@ func explode():
 	var explosion = preload("res://scenes/Explosion.tscn").instantiate()
 	get_parent().add_child(explosion)
 	explosion.global_position = global_position
+	
+	# Disable collision and shooting immediately
+	$CollisionShape3D.disabled = true
+	set_process(false)
+	set_physics_process(false)
+	
+	# Make the tank invisible
 	visible = false
+	
+	# Check if the round has ended
 	get_parent().check_round_end()
+	
+	# Remove the tank after a delay
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
