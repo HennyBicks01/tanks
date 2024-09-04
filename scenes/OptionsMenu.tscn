@@ -1,0 +1,86 @@
+[gd_scene load_steps=3 format=3 uid="uid://riqfmggkqpfd"]
+
+[ext_resource type="Script" path="res://scenes/options_menu.gd" id="1_xxxxx"]
+[ext_resource type="FontFile" uid="uid://cbbtarn8l2yhf" path="res://scripts/VT323-Regular.ttf" id="2_xxxxx"]
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xxxxx")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "Options"
+horizontal_alignment = 1
+
+[node name="SoundVolumeContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/SoundVolumeContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 32
+text = "Sound Volume:"
+
+[node name="SoundVolumeSlider" type="HSlider" parent="CenterContainer/VBoxContainer/SoundVolumeContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="MusicVolumeContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MusicVolumeContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 32
+text = "Music Volume:"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MusicVolumeContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="ScreenShakeContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/ScreenShakeContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 32
+text = "Screen Shake:"
+
+[node name="ScreenShakeCheckBox" type="CheckBox" parent="CenterContainer/VBoxContainer/ScreenShakeContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 32
+text = "Back to Main Menu"

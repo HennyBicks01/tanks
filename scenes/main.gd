@@ -3,6 +3,7 @@ extends Node3D
 @onready var arena = $Arena
 @onready var main_menu = $CanvasLayer/MainMenu
 @onready var multiplayer_menu = $CanvasLayer/MultiplayerMenu
+@onready var options_menu = $CanvasLayer/OptionsMenu
 @onready var lobby = $CanvasLayer/Lobby
 @onready var round_display = $CanvasLayer/RoundDisplay
 @onready var round_number = $CanvasLayer/RoundDisplay/RoundNumber
@@ -26,8 +27,18 @@ func _ready():
 	multiplayer_menu.connect("host_game", _on_host_game)
 	multiplayer_menu.connect("join_game", _on_join_game)
 	multiplayer_menu.connect("back_to_main_menu", _on_back_to_main_menu)
+	options_menu.connect("back_to_main_menu", _on_back_to_main_menu)
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+
+func _on_show_options():
+	main_menu.hide()
+	options_menu.show()
+
+func _on_back_to_main_menu():
+	multiplayer_menu.hide()
+	options_menu.hide()
+	main_menu.show()
 
 func _on_start_single_player():
 	main_menu.hide()
@@ -36,15 +47,6 @@ func _on_start_single_player():
 func _on_show_multiplayer_menu():
 	main_menu.hide()
 	multiplayer_menu.show()
-
-func _on_show_options():
-	main_menu.hide()
-	# You need to create and show an options menu here
-	print("Options menu not implemented yet")
-
-func _on_back_to_main_menu():
-	multiplayer_menu.hide()
-	main_menu.show()
 
 func _on_host_game():
 	var host_code = generate_random_code()
