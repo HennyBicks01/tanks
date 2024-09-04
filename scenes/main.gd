@@ -155,16 +155,24 @@ func spawn_enemy_tank():
 	enemy_tank.position = Vector3(10, 0, 0)
 	add_child(enemy_tank)
 	
+	print("Main: Spawning enemy tank. Round: ", current_round)
+	
 	if is_multiplayer:
 		enemy_tank.set_multiplayer_authority(1)
 		if multiplayer.get_unique_id() == 1:
 			var first_player_id = player_tanks.keys()[0]
+			print("Main: Setting player for enemy in multiplayer. Player ID: ", first_player_id)
 			enemy_tank.set_player(player_tanks[first_player_id])
 	else:
-		var player_id = player_tanks.keys()[0]
+		var player_id = 1  # Always use 1 for single-player
+		print("Main: Setting player for enemy in single-player. Player ID: ", player_id)
 		enemy_tank.set_player(player_tanks[player_id])
 
+	print("Main: Enemy tank spawned. Position: ", enemy_tank.position)
+
 func get_player_tank(player_id):
+	if player_id == 1:  # Always return the first player for single-player
+		return player_tanks.values()[0]
 	return player_tanks.get(player_id)
 
 func _physics_process(_delta):

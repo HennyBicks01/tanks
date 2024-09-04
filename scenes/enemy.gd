@@ -55,15 +55,28 @@ func shoot():
 
 func set_player(p):
 	player = p
+	print("Enemy: set_player called. Player: ", player)
 	if is_multiplayer_authority():
-		rpc("sync_target_player", player.name.to_int())
+		if player:
+			var player_id = player.name.to_int() if player.name.is_valid_int() else 1
+			print("Enemy: Syncing target player. Player ID: ", player_id)
+			rpc("sync_target_player", player_id)
+		else:
+			print("Enemy: Player is null in set_player")
 
 @rpc("any_peer", "call_local")
 func sync_target_player(player_id):
 	target_player_id = player_id
+	print("Enemy: sync_target_player called. Target Player ID: ", target_player_id)
 	var main_node = get_tree().get_root().get_node("Main")
 	if main_node and main_node.has_method("get_player_tank"):
 		player = main_node.get_player_tank(target_player_id)
+		if player:
+			print("Enemy: Player found and set. Player position: ", player.global_position)
+		else:
+			print("Enemy: Player not found in sync_target_player")
+	else:
+		print("Enemy: Main node or get_player_tank method not found")
 
 @rpc("any_peer", "call_local")
 func take_damage(damage):
