@@ -6,6 +6,11 @@ signal back_to_main_menu
 @onready var music_volume_slider = $CenterContainer/VBoxContainer/MusicVolumeContainer/MusicVolumeSlider
 @onready var screen_shake_checkbox = $CenterContainer/VBoxContainer/ScreenShakeContainer/ScreenShakeCheckBox
 @onready var back_button = $CenterContainer/VBoxContainer/BackButton
+@onready var title_letters = $CenterContainer/VBoxContainer/Title.get_children()
+
+var time = 0
+var wave_speed = 2
+var wave_height = 5
 
 func _ready():
 	back_button.connect("pressed", _on_back_button_pressed)
@@ -15,6 +20,12 @@ func _ready():
 	
 	# Load saved settings
 	load_settings()
+
+func _process(delta):
+	time += delta
+	for i in range(title_letters.size()):
+		var offset = sin(time * wave_speed + i * 0.5) * wave_height
+		title_letters[i].position.y = offset
 
 func _on_back_button_pressed():
 	save_settings()

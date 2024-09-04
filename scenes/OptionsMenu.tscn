@@ -24,13 +24,59 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Title" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="O" type="Label" parent="CenterContainer/VBoxContainer/Title"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_xxxxx")
 theme_override_font_sizes/font_size = 64
-text = "Options"
-horizontal_alignment = 1
+text = "O"
+
+[node name="P" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "P"
+
+[node name="T" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "T"
+
+[node name="I" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "I"
+
+[node name="O2" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "O"
+
+[node name="N" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "N"
+
+[node name="S" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "S"
 
 [node name="SoundVolumeContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2

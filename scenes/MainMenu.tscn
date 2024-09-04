@@ -97,17 +97,17 @@ theme_override_constants/separation = 20
 [node name="SinglePlayerButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 36
 text = "Single Player"
 
 [node name="MultiplayerButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 36
 text = "Multiplayer"
 
 [node name="OptionsButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonsContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_xxxxx")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 36
 text = "Options"

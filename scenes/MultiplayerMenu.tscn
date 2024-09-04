@@ -24,13 +24,87 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Title" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="M" type="Label" parent="CenterContainer/VBoxContainer/Title"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_xxxxx")
 theme_override_font_sizes/font_size = 64
-text = "Multiplayer"
-horizontal_alignment = 1
+text = "M"
+
+[node name="U" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "U"
+
+[node name="L" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "L"
+
+[node name="T" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "T"
+
+[node name="I" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "I"
+
+[node name="P" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "P"
+
+[node name="L2" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "L"
+
+[node name="A" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "A"
+
+[node name="Y" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "Y"
+
+[node name="E" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "E"
+
+[node name="R" type="Label" parent="CenterContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_xxxxx")
+theme_override_font_sizes/font_size = 64
+text = "R"
 
 [node name="HostButton" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
