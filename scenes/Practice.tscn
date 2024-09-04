@@ -1,6 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b1yvxxmqiqu74"]
-
-[ext_resource type="Script" path="res://scenes/exploding_object.gd" id="1_newid"]
+[gd_scene load_steps=8 format=3 uid="uid://b1yvxxmqiqu74"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_xxxxx"]
 
@@ -92,7 +90,6 @@ _data = {
 }
 
 [node name="ExplodingObject" type="Node3D"]
-script = ExtResource("1_newid")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 visible = false

@@ -1,8 +1,9 @@
 extends CharacterBody3D
-
 @export var speed = 10.0
-
 @onready var cannon = $Cannon
+
+var projectile_scene = preload("res://scenes/Projectile.tscn")
+var mine_scene = preload("res://scenes/Landmine.tscn")  # Make sure this path is correct
 
 func _ready():
 	# Add a material to make the tank visible
@@ -31,6 +32,9 @@ func _physics_process(_delta):
 
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
+	
+	if Input.is_action_just_pressed("place_landmine"):  # Changed from "lay_mine" to "place_landmine"
+		place_landmine()  # Changed function name for consistency
 
 func get_mouse_position():
 	var camera = get_viewport().get_camera_3d()
@@ -45,7 +49,11 @@ func get_mouse_position():
 	return to
 
 func shoot():
-	var projectile = preload("res://scenes/Projectile.tscn").instantiate()
+	rpc("spawn_projectile")
+
+@rpc("any_peer", "call_local")
+func spawn_projectile():
+	var projectile = projectile_scene.instantiate()
 	var spawn_point = cannon.global_position + -cannon.global_transform.basis.z * 1.5
 	projectile.set_ignore_body(self)  # Set the tank as the body to ignore
 	get_parent().add_child(projectile)
@@ -53,4 +61,14 @@ func shoot():
 	var shoot_direction = -cannon.global_transform.basis.z
 	shoot_direction.y = 0  # Ensure projectile moves only in X-Z plane
 	projectile.launch(shoot_direction)
-	
+
+func place_landmine():  # Changed function name for consistency
+	rpc("spawn_mine")
+
+@rpc("any_peer", "call_local")
+func spawn_mine():
+	var mine = mine_scene.instantiate()
+	var spawn_point = global_position - global_transform.basis.z * 2  # Spawn behind the tank
+	spawn_point.y = 0.1  # Slightly above the ground
+	get_parent().add_child(mine)
+	mine.global_position = spawn_point
