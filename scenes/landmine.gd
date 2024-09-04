@@ -47,13 +47,13 @@ func explode_fragments():
 	for fragment in fragments.get_children():
 		if fragment is MeshInstance3D:
 			var rigid_body = RigidBody3D.new()
-			var collision_shape = CollisionShape3D.new()
+			var fragment_collision_shape = CollisionShape3D.new()
 			var shape = ConvexPolygonShape3D.new()
 			
 			shape.set_points(fragment.mesh.get_faces())
-			collision_shape.shape = shape
+			fragment_collision_shape.shape = shape
 			
-			rigid_body.add_child(collision_shape)
+			rigid_body.add_child(fragment_collision_shape)
 			fragment.get_parent().remove_child(fragment)
 			rigid_body.add_child(fragment)
 			add_child(rigid_body)

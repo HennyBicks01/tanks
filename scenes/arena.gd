@@ -25,8 +25,8 @@ func create_border():
 		place_border_block(Vector3(-half_width, border_height / 2, z))
 		place_border_block(Vector3(half_width, border_height / 2, z))
 
-func place_border_block(position: Vector3):
+func place_border_block(block_position: Vector3):
 	var block = border_block_scene.instantiate()
 	add_child(block)
-	block.transform.origin = position
+	block.transform.origin = block_position
 	block.scale.y = border_height

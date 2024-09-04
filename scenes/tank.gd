@@ -2,6 +2,7 @@ extends CharacterBody3D
 @export var speed = 10.0
 @onready var cannon = $Cannon
 
+var health = 1
 var projectile_scene = preload("res://scenes/Projectile.tscn")
 var mine_scene = preload("res://scenes/Landmine.tscn")  # Make sure this path is correct
 
@@ -72,3 +73,17 @@ func spawn_mine():
 	spawn_point.y = 0.1  # Slightly above the ground
 	get_parent().add_child(mine)
 	mine.global_position = spawn_point
+
+func take_damage(damage):
+	health -= damage
+	if health <= 0:
+		explode()
+
+func explode():
+	var explosion = preload("res://scenes/Explosion.tscn").instantiate()
+	get_parent().add_child(explosion)
+	explosion.global_position = global_position
+	visible = false
+	get_parent().check_round_end()
+	await get_tree().create_timer(2.0).timeout
+	queue_free()

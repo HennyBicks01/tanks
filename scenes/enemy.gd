@@ -2,7 +2,8 @@ extends CharacterBody3D
 
 @export var shoot_interval = 3.0
 @export var projectile_scene: PackedScene
-@export var max_health = 100
+@export var max_health = 1
+
 
 @onready var cannon = $Cannon
 @onready var mesh_instance = $MeshInstance3D
@@ -71,8 +72,9 @@ func take_damage(damage):
 
 func explode():
 	var explosion = preload("res://scenes/Explosion.tscn").instantiate()
-	get_parent().add_child(explosion, true)
+	get_parent().add_child(explosion)
 	explosion.global_position = global_position
 	visible = false
+	get_parent().check_round_end()
 	await get_tree().create_timer(2.0).timeout
 	queue_free()

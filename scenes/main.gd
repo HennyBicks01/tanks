@@ -3,18 +3,67 @@ extends Node3D
 @onready var arena = $Arena
 @onready var main_menu = $CanvasLayer/MainMenu
 @onready var lobby = $CanvasLayer/Lobby
+@onready var round_display = $CanvasLayer/RoundDisplay
+@onready var round_number = $CanvasLayer/RoundDisplay/RoundNumber
 
 var player_tanks = {}
 var enemy_tank = null
 var network = ENetMultiplayerPeer.new()
 var port = 8910
 var max_players = 4
+var current_round = 0
+
+var time = 0
+var wave_speed = 2
+var wave_height = 10
 
 func _ready():
 	main_menu.connect("host_game", _on_host_game)
 	main_menu.connect("join_game", _on_join_game)
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+
+func start_new_round():
+	current_round += 1
+	round_number.text = str(current_round)
+	round_display.visible = true
+	setup_game()
+
+@rpc("any_peer", "call_local")
+func start_game():
+	lobby.hide()
+	start_new_round()
+
+func setup_game():
+	for tank in player_tanks.values():
+		tank.queue_free()
+	player_tanks.clear()
+	if enemy_tank:
+		enemy_tank.queue_free()
+	spawn_players()
+	spawn_enemy_tank()
+
+func _process(delta):
+	if round_display.visible:
+		time += delta
+		var offset = sin(time * wave_speed) * wave_height
+		round_number.position.y = offset
+
+# Add this function to check if the round is over
+func check_round_end():
+	var players_alive = false
+	var enemies_alive = false
+
+	for tank in player_tanks.values():
+		if tank.health > 0:
+			players_alive = true
+			break
+
+	if enemy_tank and enemy_tank.health > 0:
+		enemies_alive = true
+
+	if not players_alive or not enemies_alive:
+		get_tree().create_timer(2.0).timeout.connect(start_new_round)
 
 func _on_host_game():
 	var host_code = generate_random_code()
@@ -25,7 +74,7 @@ func _on_host_game():
 	lobby.set_host_code(host_code)
 	lobby.show_start_button(true)
 
-func _on_join_game(code):
+func _on_join_game(_code):
 	network.create_client("localhost", port)
 	multiplayer.multiplayer_peer = network
 	main_menu.hide()
@@ -41,15 +90,6 @@ func _on_peer_disconnected(id):
 		player_tanks[id].queue_free()
 		player_tanks.erase(id)
 
-@rpc("any_peer", "call_local")
-func start_game():
-	lobby.hide()
-	setup_game()
-
-func setup_game():
-	spawn_players()
-	spawn_enemy_tank()
-
 func spawn_players():
 	var tank_scene = preload("res://scenes/Tank.tscn")
 	var num_players = multiplayer.get_peers().size() + 1
@@ -63,7 +103,7 @@ func spawn_players():
 		# Calculate position based on index
 		var x_pos = -10  # All tanks start at the same X position
 		var y_pos = 0.5  # Slight elevation to ensure they're above the ground
-		var z_pos = -((num_players - 1) * spacing / 2) + (i * spacing)  # Distribute along Z-axis
+		var z_pos = -((num_players - 1) * spacing / 2.0) + (i * spacing)  # Distribute along Z-axis
 		
 		tank.position = Vector3(x_pos, y_pos, z_pos)
 		tank.set_multiplayer_authority(peer_id)
