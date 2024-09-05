@@ -1,4 +1,5 @@
- - double shot
+= upgrades = 
+- double shot
  - homing shot
  - explosive shot
  - movement speed
@@ -13,4 +14,14 @@
  - darkness
  - ice physics
  - bullet bomb
- 
+
+= Features =
+	= Modifiers =
+	- fire rate
+	- damage increase
+
+	= World Modifiers =
+	- fire
+	- rain (Lightning)
+	- Air Raid
+	- 
