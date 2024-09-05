@@ -1,9 +1,10 @@
 extends CharacterBody3D
 
+signal enemy_destroyed
+
 @export var shoot_interval = 3.0
 @export var projectile_scene: PackedScene
 @export var max_health = 1
-
 
 @onready var cannon = $Cannon
 @onready var mesh_instance = $MeshInstance3D
@@ -11,6 +12,7 @@ extends CharacterBody3D
 var player: Node3D = null
 var health = max_health
 var target_player_id: int = 0
+var is_exploding = false
 
 func _ready():
 	var material = StandardMaterial3D.new()
@@ -82,10 +84,14 @@ func sync_target_player(player_id):
 func take_damage(damage):
 	health -= damage
 	print("Enemy tank took damage. Health: ", health)
-	if health <= 0:
+	if health <= 0 and not is_exploding:
 		explode()
 
 func explode():
+	if is_exploding:
+		return
+	is_exploding = true
+	
 	var explosion = preload("res://scenes/Explosion.tscn").instantiate()
 	get_parent().add_child(explosion)
 	explosion.global_position = global_position
@@ -98,8 +104,8 @@ func explode():
 	# Make the tank invisible
 	visible = false
 	
-	# Check if the round has ended
-	get_parent().check_round_end()
+	# Emit the signal instead of directly calling check_round_end
+	emit_signal("enemy_destroyed")
 	
 	# Remove the tank after a delay
 	await get_tree().create_timer(2.0).timeout

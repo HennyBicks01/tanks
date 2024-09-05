@@ -30,7 +30,7 @@ emission_energy_multiplier = 1.56
 
 [sub_resource type="TextMesh" id="TextMesh_iy8oa"]
 material = SubResource("StandardMaterial3D_kq2et")
-text = "Fuck"
+text = "ASS"
 
 [sub_resource type="Animation" id="Animation_dhoop"]
 resource_name = "explosion"
@@ -102,7 +102,7 @@ shape = SubResource("SphereShape3D_xxxxx")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 emitting = false
-amount = 25000
+amount = 250000
 lifetime = 3.02
 one_shot = true
 explosiveness = 0.82
